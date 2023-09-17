@@ -2,9 +2,6 @@ package hello.hellospring.service;
 
 import hello.hellospring.domain.Member;
 import hello.hellospring.repository.MemberRepository;
-import hello.hellospring.repository.MemoryMemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -20,18 +17,14 @@ public class MemberService {
     }
 
     public Long join(Member member) {
-        long start = System.currentTimeMillis();
 
-        try {
+
+
             validateDuplicateMember(member); //중복 회원 검증
-
             memberRepository.save(member);
             return member.getId();
-        }finally{
-            long finish = System.currentTimeMillis();
-            long timeMs = finish - start;
-            System.out.println("join= "+ timeMs + "ms");
-        }
+
+
     }
     private void validateDuplicateMember(Member member) {
         memberRepository.findByName(member.getName())
