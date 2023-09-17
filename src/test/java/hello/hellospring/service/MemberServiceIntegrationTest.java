@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -45,6 +47,19 @@ class MemberServiceIntegrationTest {
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> memberService.join(member2));//예외가 발생해야 한다.
         assertThat(e.getMessage()).isEqualTo("이미 존재하는 회원입니다.");
+    }
+    /**
+     * 전체 회원 조회
+     */
+    public List<Member> findMembers() {
+        long start = System.currentTimeMillis();
+        try {
+            return memberRepository.findAll();
+        } finally {
+            long finish = System.currentTimeMillis();
+            long timeMs = finish - start;
+            System.out.println("findMembers " + timeMs + "ms");
+        }
     }
 
 }
